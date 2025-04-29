@@ -8,7 +8,7 @@ def load_model(path='logistic_model.pkl'):
     with open(path, 'rb') as f:
         return pickle.load(f)
 
-def show_top_terms_per_class(tfidf, model, top_n=20):
+def show_top_terms_per_class(tfidf, model, top_n=40):
     feature_names = tfidf.get_feature_names_out()
     class_labels = model.classes_
     coefficients = model.coef_ #This is a 2D array/list

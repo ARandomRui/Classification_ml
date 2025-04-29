@@ -4,12 +4,13 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 import pickle
 
 def train_model(train_dataset):
     global model, X, y, tfidf
-    # Example: Clean and vectorize movie descriptions
-    tfidf = TfidfVectorizer(stop_words='english', max_features=20000) #5000 -> 0.62 #10000 -> 0.7, #20000 -> 0.71
+    # Example: Vectorize movie descriptions
+    tfidf = TfidfVectorizer(max_features=20000) #5000 -> 0.62 #10000 -> 0.7, #20000 -> 0.71
     X = tfidf.fit_transform(train_dataset['DESCRIPTION'])  # Input: Text descriptions
     y = train_dataset['GENRE']  # Target: Genre labels
     #Note: X and y are the standard for input and answer/label/target whatever you want to say
@@ -74,11 +75,9 @@ def save_model():
 def main():
     global Title_names_list
     global train_dataset
-    train_dataset_path = "./data/train_data.txt"
+    train_dataset_path = "./data/cleaned_train_data.txt"
 
-    Title_names_list = ['ID', 'TITLE', 'GENRE', 'DESCRIPTION']
-
-    train_dataset = pd.read_csv(train_dataset_path,sep=' ::: ', names=Title_names_list ,engine='python')
+    train_dataset = pd.read_csv(train_dataset_path,sep=',',engine='python')
     print(train_dataset.columns)
     create_save_prompt()
     if new_model_prompt == 'y':
